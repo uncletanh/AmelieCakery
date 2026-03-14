@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Amélie Cakery - Bánh ngọt chất lượng cao">
+    <title>Amélie Cakery | Menu Bánh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="main-header" id="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <img src="https://static.wixstatic.com/media/6774d8_cd26c3b141ea40eab639bd5017c21b40~mv2.png/v1/fill/w_260,h_120,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Asset%201_10x.png"
+                    srcset="https://static.wixstatic.com/media/6774d8_cd26c3b141ea40eab639bd5017c21b40~mv2.png/v1/fill/w_260,h_120,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Asset%201_10x.png 1x, https://static.wixstatic.com/media/6774d8_cd26c3b141ea40eab639bd5017c21b40~mv2.png/v1/fill/w_520,h_239,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Asset%201_10x.png 2x"
+                    alt="Amélie Cakery Logo" width="130" height="60">
+            </a>
+            <nav class="category-nav">
+                <button class="pill-btn active" data-filter="all">Tất cả</button>
+                <button class="pill-btn" data-filter="box-cake">Box Cake</button>
+                <button class="pill-btn" data-filter="mini-cake">Mini Cakes 7cm</button>
+                <button class="pill-btn" data-filter="birthday-cake">Bánh Sinh Nhật</button>
+                <button class="pill-btn" data-filter="mignonne-cake">Mignonne Cakes 12cm</button>
+                <button class="pill-btn" data-filter="event-cake">Khay & Bánh Sự Kiện</button>
+            </nav>
+            <a href="#footer-contact" class="hotline-btn">094 222 9626</a>
+        </div>
+    </header>
+
+    <div class="status-banner">
+        <p>Tiệm bánh sắp chuyển từ Ngõ 12 Hàng Bún sang địa chỉ mới: 35 Yên Phụ. Hẹn gặp lại quý khách tại cửa hàng mới!
+        </p>
+    </div>
+
+    <main class="menu-container">
+        <section class="menu-section">
+            <h2 class="section-title">Menu Bánh</h2>
+            <!-- Carousel View for 'Tất cả' Tab -->
+            <div id="carousel-view" class="carousel-container">
+                <div class="carousel-track-container">
+                    <ul class="carousel-track">
+                        <!-- Slides will be injected here by JS -->
+                    </ul>
+                </div>
+                <button class="carousel-btn carousel-btn--left">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="carousel-btn carousel-btn--right">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <div class="carousel-nav">
+                    <!-- Dots will be injected here by JS -->
+                </div>
+            </div>
+
+            <div class="grid-layout" id="product-grid" style="display: none;">
+                <!-- Products will be rendered here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-contact" class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Amélie Cakery</h3>
+                <p>Hotline đặt hàng: <a href="tel:0942229626">094 222 9626</a></p>
+                <p>Inbox page hoặc gọi hotline để đặt hàng nhé!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Thông Tin</h3>
+                <p>Delivery fee - Min. order - Free delivery above</p>
+                <p>Pickup | Delivery | Dine-In</p>
+            </div>
+            <div class="footer-section">
+                <h3>Theo Dõi</h3>
+                <p>Follow us on <a href="#">Facebook</a></p>
+                <p>©2021 by Amélie Cakery.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close" aria-label="Đóng popup">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="modal-body">
+                <!-- Left: Image -->
+                <div class="modal-img-panel">
+                    <img src="" alt="" id="modal-img" class="modal-main-img">
+                </div>
+                <!-- Right: Info + Sizes + Actions -->
+                <div class="modal-right-panel">
+                    <div class="modal-info">
+                        <h2 id="modal-title" class="modal-title"></h2>
+                        <p id="modal-desc" class="modal-desc"></p>
+
+                        <div id="size-selection" class="modal-size-section">
+                            <p class="size-section-title">Choose one *</p>
+                            <div id="size-options-container" class="size-options-container">
+                                <!-- Radio buttons will be generated by JS -->
+                            </div>
+                        </div>
+
+                        <div class="modal-request-section">
+                            <label for="special-request">Special Request</label>
+                            <textarea id="special-request"
+                                placeholder="We'll do our best to accommodate any requests when possible."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button id="modal-order-btn" class="modal-submit-btn">
+                            Đặt Hàng Ngay | <span id="modal-price"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/menuData.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Force arrows to be always visible
+        const style = document.createElement('style');
+        style.textContent = '.carousel-btn { display: flex !important; visibility: visible !important; opacity: 1 !important; z-index: 100 !important; }';
+        document.head.appendChild(style);
+
+        const track = document.querySelector('.carousel-track');
+        const nextButton = document.querySelector('.carousel-btn--right');
+        const prevButton = document.querySelector('.carousel-btn--left');
+        const dotsNav = document.querySelector('.carousel-nav');
+        
+        const featuredCakes = [
+            { name: "Tuyệt Tác Amélie", image: "https://static.wixstatic.com/media/6774d8_67629e3d47354431ad7ede98539d9850~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured1.jpg", description: "Những mẫu bánh tinh hoa hội tụ vẻ đẹp và hương vị đỉnh cao." },
+            { name: "Hương Vị Mùa Hè", image: "https://static.wixstatic.com/media/6774d8_b565a5699ccc4c7caa94bef9e11c1f3a~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured2.jpg", description: "Sự kết hợp hoàn hảo giữa trái cây tươi và kem nhẹ." },
+            { name: "Sáng Tạo Không Giới Hạn", image: "https://static.wixstatic.com/media/6774d8_4898d53808114dd2a59eaaf06341c591~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured3.jpg", description: "Mỗi chiếc bánh là một câu chuyện riêng, được thiết kế tỉ mỉ." }
+        ];
+
+        // Render
+        track.innerHTML = featuredCakes.map((cake, i) => `<li class="carousel-slide ${i===0?'current-slide':''}"><img src="${cake.image}"><div class="carousel-slide-content"><h3>${cake.name}</h3><p>${cake.description}</p></div></li>`).join('');
+        dotsNav.innerHTML = featuredCakes.map((_, i) => `<button class="carousel-indicator ${i===0?'current-slide':''}"></button>`).join('');
+
+        const slides = Array.from(track.children);
+        const dots = Array.from(dotsNav.children);
+
+        const setPosition = () => {
+            const w = slides[0].getBoundingClientRect().width;
+            slides.forEach((s, i) => s.style.left = w * i + 'px');
+        };
+        setPosition();
+        window.addEventListener('resize', setPosition);
+
+        const move = (curr, target, dot) => {
+            track.style.transform = 'translateX(-' + target.style.left + ')';
+            curr.classList.remove('current-slide');
+            target.classList.add('current-slide');
+            dots.forEach(d => d.classList.remove('current-slide'));
+            dot.classList.add('current-slide');
+        };
+
+        nextButton.addEventListener('click', () => {
+            const curr = track.querySelector('.current-slide');
+            let next = curr.nextElementSibling || slides[0];
+            const currDot = dotsNav.querySelector('.current-slide');
+            let nextD = currDot.nextElementSibling || dots[0];
+            move(curr, next, nextD);
+        });
+
+        prevButton.addEventListener('click', () => {
+            const curr = track.querySelector('.current-slide');
+            let prev = curr.previousElementSibling || slides[slides.length - 1];
+            const currDot = dotsNav.querySelector('.current-slide');
+            let prevD = currDot.previousElementSibling || dots[dots.length - 1];
+            move(curr, prev, prevD);
+        });
+
+        dotsNav.addEventListener('click', e => {
+            const dot = e.target.closest('button');
+            if(!dot) return;
+            const curr = track.querySelector('.current-slide');
+            const idx = dots.findIndex(d => d === dot);
+            move(curr, slides[idx], dot);
+        });
+
+        setInterval(() => {
+            if (document.getElementById('carousel-view').style.display === 'none') return;
+            nextButton.click();
+        }, 5000);
+    });
+    </script>
+    <script src="script.js?v=infinite_loop_v2"></script>
+</body>
+
+</html>
