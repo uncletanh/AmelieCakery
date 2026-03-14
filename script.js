@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    alert("CAROUSEL V2 LOADED");
     
     // 1. Sticky Header Effect
     const header = document.getElementById("header");
