@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // 1. Sticky Header Effect
     const header = document.getElementById("header");
     window.addEventListener("scroll", () => {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Render Engine: Tự động gen HTML cho sản phẩm
     const productGrid = document.getElementById("product-grid");
     const carouselView = document.getElementById("carousel-view");
-    
+
     // Featured products for carousel
     const featuredCakes = [
         {
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const nextButton = document.querySelector('.carousel-btn--right');
         const prevButton = document.querySelector('.carousel-btn--left');
         const dotsNav = document.querySelector('.carousel-nav');
-        
+
         // Render slides
         track.innerHTML = featuredCakes.map((cake, index) => `
             <li class="carousel-slide ${index === 0 ? 'current-slide' : ''}">
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 slide.style.left = slideWidth * index + 'px';
             });
         };
-        
+
         setSlidePosition();
         window.addEventListener('resize', setSlidePosition);
 
@@ -148,11 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderProducts(products) {
         productGrid.innerHTML = "";
-        
+
         products.forEach(product => {
             const article = document.createElement("article");
             article.className = `product-card category-${product.category}`;
-            
+
             // Generate HTML using innerHTML purely for simplicity & rendering
             article.innerHTML = `
                 <div class="card-img-wrap">
@@ -168,10 +168,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
             `;
-            
+
             // Lắng nghe sự kiện click trên toàn bộ thẻ để mở Modal
             article.addEventListener('click', () => openModal(product));
-            
+
             productGrid.appendChild(article);
         });
 
@@ -185,16 +185,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3. Filter Logic (Lọc không cần tải lại trang)
     const filterBtns = document.querySelectorAll(".pill-btn");
-    
+
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             // Remove active class from all
             filterBtns.forEach(b => b.classList.remove("active"));
             // Add active class to clicked
             btn.classList.add("active");
-            
+
             const filterValue = btn.getAttribute("data-filter");
-            
+
             if (filterValue === "all") {
                 carouselView.style.display = "block";
                 productGrid.style.display = "none";
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Image/Card Reveal (Fade-up nhịp nhàng)
     function observeCards() {
         const cards = document.querySelectorAll('.product-card');
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. Product Modal Logic
     const modalOverlay = document.getElementById("product-modal");
     const modalCloseBtn = document.getElementById("modal-close");
-    
+
     // Modal Elements
     const modalImg = document.getElementById("modal-img");
     const modalTitle = document.getElementById("modal-title");
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalPrice = document.getElementById("modal-price");
     const modalOrderBtn = document.getElementById("modal-order-btn");
     const specialRequestInput = document.getElementById("special-request");
-    
+
     // Size Elements
     const sizeSelectionSection = document.getElementById("size-selection");
     const sizeOptionsContainer = document.getElementById("size-options-container");
@@ -268,14 +268,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function generateSizeOptions(basePriceNum) {
         sizeOptionsContainer.innerHTML = "";
-        
+
         Object.entries(sizeIncrements).forEach(([size, addedValue]) => {
             const finalPrice = basePriceNum + addedValue;
             const priceText = formatPrice(finalPrice);
-            
+
             const isChecked = size === "Size 16" ? "checked" : "";
             const activeClass = size === "Size 16" ? "active" : "";
-            
+
             const html = `
                 <label class="size-option ${activeClass}" data-size="${size}" data-price="${finalPrice}">
                     <input type="radio" name="cake-size" value="${size}" ${isChecked}>
@@ -292,9 +292,9 @@ document.addEventListener("DOMContentLoaded", () => {
             radio.addEventListener('change', (e) => {
                 // Xoá active cũ
                 radioLabels.forEach(l => l.classList.remove('active'));
-                
+
                 // Thêm active mới, cập nhật giá
-                if(e.target.checked) {
+                if (e.target.checked) {
                     label.classList.add('active');
                     selectedSizeLabel = label.dataset.size;
                     const newPrice = parseInt(label.dataset.price);
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openModal(product) {
         currentActiveProduct = product;
-        
+
         // Populate Basic Data
         modalImg.src = product.image;
         modalImg.alt = product.alt;
@@ -319,12 +319,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (imgPanel) {
             imgPanel.style.backgroundImage = `url('${product.image}')`;
         }
-        
+
         // Setup Pricing
         basePriceValue = parsePrice(product.price);
         modalPrice.textContent = formatPrice(basePriceValue);
         selectedSizeLabel = ""; // Reset trạng thái Size
-        
+
         // Chỉ hiện chọn Size cho dòng Bánh sinh nhật
         if (product.category === "birthday-cake") {
             sizeSelectionSection.style.display = "block";
@@ -339,19 +339,19 @@ document.addEventListener("DOMContentLoaded", () => {
         modalOverlay.classList.add("active");
         document.body.style.overflow = "hidden";
     }
-    
+
     function closeModal() {
         modalOverlay.classList.remove("active");
         document.body.style.overflow = "";
         currentActiveProduct = null;
     }
-    
+
     // Events for Closing Modal
     modalCloseBtn.addEventListener("click", closeModal);
     modalOverlay.addEventListener("click", (e) => {
         if (e.target === modalOverlay) closeModal();
     });
-    
+
     // Escape key để đóng modal
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
@@ -361,21 +361,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle Order Submission from Modal
     modalOrderBtn.addEventListener("click", () => {
-        if(!currentActiveProduct) return;
-        
+        if (!currentActiveProduct) return;
+
         const requestText = specialRequestInput.value.trim();
         let message = `Mình muốn đặt ${currentActiveProduct.name}`;
-        
+
         // Nếu có Size thì nối thêm Size vào tên
         if (selectedSizeLabel) {
             message += ` - ${selectedSizeLabel}`;
         }
-        
-        if(requestText) {
+
+        if (requestText) {
             message += `\nYêu cầu đặc biệt: ${requestText}`;
         }
         message += `, tư vấn giúp mình nhé!`;
-        
+
         const encodedMessage = encodeURIComponent(message);
         const messengerLink = `https://m.me/ameliecakery?text=${encodedMessage}`;
         window.open(messengerLink, "_blank");
