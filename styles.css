@@ -822,11 +822,22 @@ body {
         left: 0;
     }
 
+    .header-main-inner {
+        position: relative;
+        justify-content: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .logo {
+        margin: 0 auto;
+    }
+
     .main-nav .nav-link {
         width: 100%;
         font-size: 0.95rem;
         border-bottom: 1px solid rgba(0,0,0,0.05);
-        padding: 0.85rem 0;
+        padding: 0.5rem 0;
     }
 
     .nav-item-dropdown {
@@ -856,10 +867,18 @@ body {
     }
 
     .header-social {
+        position: absolute;
+        right: 1rem;
         margin-left: 0;
-        order: -1;
-        flex: 1;
+        width: auto;
         justify-content: flex-end;
+    }
+    
+    .hamburger-btn {
+        position: absolute;
+        left: 1rem;
+        margin-left: 0;
+        z-index: 100;
     }
 }
 
