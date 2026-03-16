@@ -17,21 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Featured products for carousel
     const featuredCakes = [
         {
-            name: "Tuyệt Tác Amélie",
-            description: "Những mẫu bánh tinh hoa hội tụ vẻ đẹp và hương vị đỉnh cao, dành cho những dịp đặc biệt nhất.",
-            image: "https://static.wixstatic.com/media/6774d8_67629e3d47354431ad7ede98539d9850~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured1.jpg",
+            name: "Bánh Sinh Nhật",
+            image: "data/background/bánh sinh nhật.jpg",
             category: "featured"
         },
         {
-            name: "Hương Vị Mùa Hè",
-            description: "Sự kết hợp hoàn hảo giữa trái cây tươi và kem nhẹ, mang lại cảm giác thanh mát khó quên.",
-            image: "https://static.wixstatic.com/media/6774d8_b565a5699ccc4c7caa94bef9e11c1f3a~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured2.jpg",
+            name: "Mini Cake",
+            image: "data/background/mini cake.jpg",
             category: "featured"
         },
         {
-            name: "Sáng Tạo Không Giới Hạn",
-            description: "Mỗi chiếc bánh là một câu chuyện riêng, được thiết kế tỉ mỉ theo yêu cầu của bạn.",
-            image: "https://static.wixstatic.com/media/6774d8_4898d53808114dd2a59eaaf06341c591~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured3.jpg",
+            name: "Box Cake",
+            image: "data/background/box cake.jpg",
             category: "featured"
         }
     ];
@@ -42,14 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const prevButton = document.querySelector('.carousel-btn--left');
         const dotsNav = document.querySelector('.carousel-nav');
 
-        // Render slides
+        // Render slides without the text overlay
         track.innerHTML = featuredCakes.map((cake, index) => `
             <li class="carousel-slide ${index === 0 ? 'current-slide' : ''}">
                 <img src="${cake.image}" alt="${cake.name}">
-                <div class="carousel-slide-content">
-                    <h3 class="carousel-slide-title">${cake.name}</h3>
-                    <p class="carousel-slide-desc">${cake.description}</p>
-                </div>
             </li>
         `).join('');
 
@@ -146,63 +139,171 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // initCarousel(); // Carousel now managed directly in index.html for better sync
 
-    function renderProducts(products) {
-        productGrid.innerHTML = "";
-
-        products.forEach(product => {
-            const article = document.createElement("article");
-            article.className = `product-card category-${product.category}`;
-
-            // Generate HTML using innerHTML purely for simplicity & rendering
-            article.innerHTML = `
-                <div class="card-img-wrap">
-                    <img src="${product.image}" loading="lazy" alt="${product.alt}" class="card-img">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">${product.name}</h3>
-                    <p class="card-desc">${product.description}</p>
-                    <div class="card-bottom">
-                        <span class="card-price">${product.price}</span>
-                        <!-- Nút chỉ đóng vai trò hiển thị trên Card -->
-                        <button class="btn-order">Xem Thêm</button>
-                    </div>
-                </div>
-            `;
-
-            // Lắng nghe sự kiện click trên toàn bộ thẻ để mở Modal
-            article.addEventListener('click', () => openModal(product));
-
-            productGrid.appendChild(article);
-        });
-
-        // Initialize Intersection Observer cho phần tử mới render
-        observeCards();
+    // --- SCROLL TO HIDE CAROUSEL ARROWS ---
+    const carouselContainer = document.getElementById("carousel-view");
+    if (carouselContainer) {
+        window.addEventListener("scroll", () => {
+             const rect = carouselContainer.getBoundingClientRect();
+             // Ẩn mũi tên khi phần dưới cùng của Carousel cuộn qua 1/2 màn hình
+             if (rect.bottom < window.innerHeight * 0.5) {
+                carouselContainer.classList.add("hide-arrows");
+             } else {
+                carouselContainer.classList.remove("hide-arrows");
+             }
+        }, { passive: true });
     }
 
-    // Mặc định ban đầu chỉ hiện Carousel
-    // (renderProducts(menuData) không còn cần ở đây vì grid-layout mặc định style="display:none")
+    // --- NEW FULL MENU RENDERING ---
+    const fullMenuWrapper = document.getElementById("full-menu-wrapper");
 
+    const categories = [
+        { id: "section-birthday-cake", filter: "birthday-cake", title: "BÁNH SINH NHẬT" },
+        { id: "section-mini-cake", filter: "mini-cake", title: "MINI CAKE" },
+        { id: "section-box-cake", filter: "box-cake", title: "BOX CAKE" },
+        { id: "section-mignonne-cake", filter: "mignonne-cake", title: "MIGNONNE CAKE" },
+        { id: "section-event-cake", filter: "event-cake", title: "KHAY & BÁNH SỰ KIỆN" }
+    ];
 
-    // 3. Filter Logic (Lọc không cần tải lại trang)
-    const filterBtns = document.querySelectorAll(".pill-btn");
+    function createHorizontalCard(product) {
+        const card = document.createElement("div");
+        card.className = "horizontal-card";
+        card.innerHTML = `
+            <div class="horizontal-card-img-wrap">
+                <img src="${product.image}" loading="lazy" alt="${product.alt}" class="horizontal-card-img">
+            </div>
+            <div class="horizontal-card-content">
+                <h4 class="h-card-title">${product.name}</h4>
+                <div class="h-card-price">${product.price}</div>
+                <p class="h-card-desc">${product.description}</p>
+            </div>
+        `;
+        card.addEventListener('click', () => openModal(product));
+        return card;
+    }
+
+    function renderFullMenu() {
+        if (!fullMenuWrapper) return;
+        fullMenuWrapper.innerHTML = "";
+        
+        categories.forEach(cat => {
+            const catProducts = menuData.filter(p => p.category === cat.filter);
+            if (catProducts.length === 0) return;
+
+            const sectionDiv = document.createElement("div");
+            sectionDiv.className = "menu-category-section";
+            sectionDiv.id = cat.id;
+            
+            sectionDiv.innerHTML = `<h3 class="menu-category-title">${cat.title}</h3>`;
+            
+            const gridDiv = document.createElement("div");
+            gridDiv.className = "horizontal-grid";
+
+            const limit = 4; // Show first 4 by default
+            let hiddenWrapper = null;
+            
+            catProducts.forEach((product, index) => {
+                const card = createHorizontalCard(product);
+                
+                if (index >= limit) {
+                    if (!hiddenWrapper) {
+                        hiddenWrapper = document.createElement("div");
+                        hiddenWrapper.className = "hidden-products";
+                        gridDiv.appendChild(hiddenWrapper);
+                    }
+                    hiddenWrapper.appendChild(card);
+                } else {
+                    gridDiv.appendChild(card);
+                }
+            });
+            sectionDiv.appendChild(gridDiv);
+            
+            // Thêm nút "Xem thêm" gắn ở góc dưới bên phải mỗi section
+            const viewMoreLink = document.createElement("a");
+            viewMoreLink.className = "section-view-more";
+            viewMoreLink.href = `${cat.filter}.html`; // Giả định url các trang tiêng là box-cake.html, mini-cake.html...
+            viewMoreLink.innerHTML = 'Xem thêm <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+            sectionDiv.appendChild(viewMoreLink);
+
+            fullMenuWrapper.appendChild(sectionDiv);
+        });
+
+        // Setup View All button
+        const viewAllBtn = document.getElementById("view-all-btn");
+        if (viewAllBtn) {
+            // Remove old listeners to prevent duplicates if re-rendered
+            const clonedBtn = viewAllBtn.cloneNode(true);
+            viewAllBtn.parentNode.replaceChild(clonedBtn, viewAllBtn);
+            
+            clonedBtn.addEventListener("click", () => {
+                const hiddenElements = document.querySelectorAll(".hidden-products");
+                let isShowing = false;
+                
+                hiddenElements.forEach(el => {
+                    el.classList.toggle("show");
+                    if (el.classList.contains("show")) isShowing = true;
+                });
+                
+                if(isShowing) {
+                    clonedBtn.innerText = "THU GỌN";
+                } else {
+                    clonedBtn.innerText = "XEM TẤT CẢ";
+                    // Scroll back up slightly to the top of menu when collapsing
+                    document.getElementById('full-menu-wrapper').scrollIntoView({behavior: "smooth", block: "start"});
+                }
+            });
+        }
+    }
+
+    renderFullMenu();
+
+    // --- RENDER DEDICATED CATEGORY PAGE ---
+    function renderCategoryPage() {
+        const categoryGrid = document.getElementById("category-page-grid");
+        if (!categoryGrid) return;
+        
+        const currentCategory = categoryGrid.getAttribute("data-category");
+        const catProducts = menuData.filter(p => p.category === currentCategory);
+        
+        catProducts.forEach(product => {
+            const card = createHorizontalCard(product);
+            categoryGrid.appendChild(card);
+        });
+    }
+    renderCategoryPage();
+
+    // 3. Dropdown Menu Smart Logic
+    const filterBtns = document.querySelectorAll(".dropdown-item");
 
     filterBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            // Remove active class from all
-            filterBtns.forEach(b => b.classList.remove("active"));
-            // Add active class to clicked
-            btn.classList.add("active");
-
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
             const filterValue = btn.getAttribute("data-filter");
-
+            
+            let targetId = "";
+            let targetRawURL = "";
             if (filterValue === "all") {
-                carouselView.style.display = "block";
-                productGrid.style.display = "none";
+                targetId = "carousel-view";
+                targetRawURL = "index.html"; // Mặc định về trang chủ
             } else {
-                carouselView.style.display = "none";
-                productGrid.style.display = "grid";
-                const filteredProducts = menuData.filter(product => product.category === filterValue);
-                renderProducts(filteredProducts);
+                targetId = "section-" + filterValue;
+                targetRawURL = filterValue + ".html";
+            }
+
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                // Nếu đang ở index.html và section tồn tại -> Scroll
+                const headerOffset = 120; // Trừ hao chiều cao header sticky (2 rows)
+                const elementPosition = targetSection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                     top: offsetPosition,
+                     behavior: "smooth"
+                });
+            } else {
+                // Đang ở trang category riêng biệt -> Chuyển trang (Redirect)
+                window.location.href = targetRawURL;
             }
         });
     });

@@ -137,32 +137,12 @@
         </div>
     </div>
 
+    
     <main class="menu-container">
         <section class="menu-section">
-            <!-- Category Banners -->
-            <div class="category-banners-container">
-                <div class="banner-item" onclick="document.getElementById('section-birthday-cake').scrollIntoView({behavior: 'smooth'})">
-                    <img src="https://static.wixstatic.com/media/6774d8_8b3de581b9644d2db7b197eebb9b5a9e~mv2.jpg/v1/fill/w_685,h_386,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Placeholder.jpg" alt="Bánh Sinh Nhật">
-                    <div class="banner-label">BÁNH SINH NHẬT</div>
-                </div>
-                <div class="banner-item" onclick="document.getElementById('section-mini-cake').scrollIntoView({behavior: 'smooth'})">
-                    <!-- Note: assuming data folder structure is intact based on menuData -->
-                    <img src="data/Mini cake/dâu kem tươi.jpg" alt="Mini Cake">
-                    <div class="banner-label">MINI CAKE</div>
-                </div>
-                <div class="banner-item" onclick="document.getElementById('section-box-cake').scrollIntoView({behavior: 'smooth'})">
-                    <img src="https://static.wixstatic.com/media/6774d8_6f579423eb41464dbb77e4ea0ddfe5bb~mv2.jpeg/v1/fill/w_685,h_386,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Placeholder.jpeg" alt="Box Cake">
-                    <div class="banner-label">BOX CAKE</div>
-                </div>
-            </div>
-
-            <!-- Full Representative Menu -->
-            <div id="full-menu-wrapper" class="full-menu-wrapper">
-                <!-- JS will inject sections here -->
-            </div>
-            
-            <div class="view-all-container">
-                <button id="view-all-btn" class="view-all-btn">XEM TẤT CẢ</button>
+            <h2 class="section-title" style="margin-top: 4rem;">BÁNH SINH NHẬT</h2>
+            <div id="category-page-grid" data-category="birthday-cake" class="horizontal-grid">
+                <!-- Products will be injected here by JS -->
             </div>
         </section>
     </main>
@@ -275,13 +255,13 @@
             const dotsNav = document.querySelector('.carousel-nav');
 
             const featuredCakes = [
-                { name: "Bánh Sinh Nhật", image: "data/background/bánh sinh nhật.jpg" },
-                { name: "Mini Cake", image: "data/background/mini cake.jpg" },
-                { name: "Box Cake", image: "data/background/box cake.jpg" }
+                { name: "Tuyệt Tác Amélie", image: "https://static.wixstatic.com/media/6774d8_67629e3d47354431ad7ede98539d9850~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured1.jpg", description: "Những mẫu bánh tinh hoa hội tụ vẻ đẹp và hương vị đỉnh cao." },
+                { name: "Hương Vị Mùa Hè", image: "https://static.wixstatic.com/media/6774d8_b565a5699ccc4c7caa94bef9e11c1f3a~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured2.jpg", description: "Sự kết hợp hoàn hảo giữa trái cây tươi và kem nhẹ." },
+                { name: "Sáng Tạo Không Giới Hạn", image: "https://static.wixstatic.com/media/6774d8_4898d53808114dd2a59eaaf06341c591~mv2.jpg/v1/fill/w_1200,h_500,al_c,q_85/Featured3.jpg", description: "Mỗi chiếc bánh là một câu chuyện riêng, được thiết kế tỉ mỉ." }
             ];
 
             // Render
-            track.innerHTML = featuredCakes.map((cake, i) => `<li class="carousel-slide ${i === 0 ? 'current-slide' : ''}"><img src="${cake.image}" alt="${cake.name}"></li>`).join('');
+            track.innerHTML = featuredCakes.map((cake, i) => `<li class="carousel-slide ${i === 0 ? 'current-slide' : ''}"><img src="${cake.image}"><div class="carousel-slide-content"><h3>${cake.name}</h3><p>${cake.description}</p></div></li>`).join('');
             dotsNav.innerHTML = featuredCakes.map((_, i) => `<button class="carousel-indicator ${i === 0 ? 'current-slide' : ''}"></button>`).join('');
 
             const slides = Array.from(track.children);
